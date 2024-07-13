@@ -59,13 +59,6 @@ button:hover {
 }
 
 pre {
-  background-color: #f4f4f9;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  overflow-x: auto;
-
-
   white-space: pre-wrap; /* Handles white spaces */
   word-wrap: break-word; /* Prevents overflow of long lines */
   max-height: 500px; /* Optional: limit the height */
