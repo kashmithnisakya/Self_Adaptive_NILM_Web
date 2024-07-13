@@ -4,6 +4,7 @@ import keras
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import json
 
 
 def get_predictions(): 
@@ -376,68 +377,19 @@ def get_predictions():
     agg_mean = 2170.743671588378
 
 
-    def test_predictions(window, agg_ylimit=None):
-        pred = aging_model(x_val[:,window[0]:window[1],:])
-        print(pred.shape)
+    def test_predictions(window):
+        pred = aging_model(x_val[:,window[0]:window[1],:]).numpy()
         target = y_val
         n1 = window[0]
         n2 = window[1]
 
-        fig, axes = plt.subplots(2,1)
+        return {
+                'aggregated_power_phase_1': list((x_val[0, n1:n2, 0]*agg_std)+agg_mean),
+                'aggregated_power_phase_2': list((x_val[0, n1:n2, 1]*agg_std)+agg_mean),
+                'aggregated_power_phase_3': list((x_val[0, n1:n2, 2]*agg_std)+agg_mean),
+                'disaggregated_power_target':list(target[0,n1:n2,0]*target_std),
+                'disaggregated_power_prediction': list(pred[0,:,0]*target_std)
+                }
 
-        axes[0].plot((x_val[0, n1:n2, 0]*agg_std)+agg_mean, label='Aggregate consumption (Phase 1)')
-        axes[0].plot((x_val[0, n1:n2, 1]*agg_std)+agg_mean, label='Aggregate consumption (Phase 2)')
-        axes[0].plot((x_val[0, n1:n2, 2]*agg_std)+agg_mean, label='Aggregate consumption (Phase 3)')
-
-
-        axes[1].plot(target[0,n1:n2,0]*target_std, label='Target')
-        axes[1].plot(pred[0,:,0]*target_std, label="Prediction")
-
-        plt.xlabel('Samples (6s per sample)')
-        axes[0].set_ylabel('Power (W)')
-        axes[1].set_ylabel('Power (W)')
-        axes[0].legend()
-        axes[1].legend()
-        # plt.suptitle('')
-
-        if agg_ylimit:
-            axes[0].set_ylim(0, agg_ylimit)
-
-
-    def aged_predictions(window, agg_ylimit=None):
-        years = len(df_aged.columns)
-
-        fig, axes = plt.subplots(2*years, 1, figsize=(40, 15*years))
-
-        for year in range(0,years) :
-
-            x_val, y_val = x_val_dict[str(year)], y_val_dict[str(year)]
-
-            pred = aging_model(x_val[:,window[0]:window[1],:])
-            target = y_val_dict['0']
-            n1 = window[0]
-            n2 = window[1]
-
-            axes[(year)*2].set_title(f'Aggregate Power for Year {year}')
-            axes[(year)*2].plot((x_val[0, n1:n2, 0]*agg_std)+agg_mean, label='Aggregate consumption (Phase 1)')
-            axes[(year)*2].plot((x_val[0, n1:n2, 1]*agg_std)+agg_mean, label='Aggregate consumption (Phase 2)')
-            axes[(year)*2].plot((x_val[0, n1:n2, 2]*agg_std)+agg_mean, label='Aggregate consumption (Phase 3)')
-
-            target_std = y_train_std_dict['0']
-            error = y_val[0,n1:n2,0]*target_std-pred[0,:,0]*target_std
-
-            axes[(year)*2+1].set_title(f'Disggregate Power for Year {year}')
-            axes[(year)*2+1].plot(target[0,n1:n2,0]*target_std, label=f'Target(year 0)')
-            axes[(year)*2+1].plot(y_val[0,n1:n2,0]*target_std, label=f'Target(year {year})')
-            axes[(year)*2+1].plot(pred[0,:,0]*target_std, label=f"Prediction(year {year})")
-            # axes[(year)*2+1].plot(error, label=f"Error[y_val-pred](year {year})")
-
-            plt.xlabel('Samples (6s per sample)')
-            axes[(year)*2].set_ylabel('Power (W)')
-            axes[(year)*2+1].set_ylabel('Power (W)')
-            axes[(year)*2].legend()
-            axes[(year)*2+1].legend()
-
-
-            if agg_ylimit:
-                axes[0].set_ylim(0, agg_ylimit)
+    output = test_predictions(window =[800,1500])
+    return output

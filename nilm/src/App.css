@@ -64,4 +64,14 @@ pre {
   border-radius: 4px;
   border: 1px solid #ddd;
   overflow-x: auto;
+
+
+  white-space: pre-wrap; /* Handles white spaces */
+  word-wrap: break-word; /* Prevents overflow of long lines */
+  max-height: 500px; /* Optional: limit the height */
+  overflow-y: auto; /* Optional: scroll for long content */
+  background-color: #f4f4f4; /* Optional: background color */
+  padding: 10px; /* Optional: padding */
+  border-radius: 4px; /* Optional: rounded corners */
+  border: 1px solid #ddd; /* Optional: border */
 }

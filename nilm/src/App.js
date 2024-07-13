@@ -20,6 +20,7 @@ function App() {
     try {
       const res = await axios.post('http://localhost:8000/predict/', deviceData);
       setResponse(res.data);
+      console.log(res.data);
     } catch (error) {
       console.error('There was an error!', error);
     }
@@ -70,7 +71,9 @@ function App() {
       {response && (
         <div className="response">
           <h2>Response from the server:</h2>
-          <pre>{JSON.stringify(response, null, 2)}</pre>
+          <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+            {JSON.stringify(response, null, 2)}
+          </pre>
         </div>
       )}
     </div>
