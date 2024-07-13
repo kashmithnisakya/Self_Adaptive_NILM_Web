@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from model_year_3 import get_predictions
 
 class Device(BaseModel):
     device_name: str
@@ -26,5 +27,6 @@ def read_root():
 
 @app.post("/predict/")
 def get_prediction(device: Device):
-    print(device)
+    print("request:",device)
+    get_predictions()
     return {"prediction": "This is a prediction"}
