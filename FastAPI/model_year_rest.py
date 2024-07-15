@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-def get_predictions_0123(device_name, device_age, start_point, end_point): 
+def get_predictions_rest(device_name, device_age, start_point, end_point): 
     # parameters
     phase_type = '3-phase'          ## Phase
     appliance_name = '3ph_fridge_1' ## Select Appliance Name Here
@@ -24,12 +24,6 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
 
     # training parameters
     EPOCHS = 200                    ## Number of epochs to train for
-    early_stopping_patience = 30    ## If the validation loss does not reduce for this amount of epochs, training will be stopped early
-    visualize_per_n_batches = 5     ## How often the model predictions are visualized in plots
-    ckpt_per_n_epochs = 1           ## How often model weights are saved locally & to drive
-
-    model_name = model_id +"_"+ appliance_name
-
 
 
     current_directory = os.getcwd()
@@ -84,7 +78,6 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
                 'out_channels': self.out_channels})
             return config
 
-
     class wavenet(tf.keras.Model):
         def __init__(self, n_layers = 10, out_channels = 256, kernel_size = 2, dialtion_base = 2, causal = True, base_activation = 'softmax', middle_layers_activation = 'softplus', bias_initializer = None, **kwargs) -> None:
             super(wavenet, self).__init__(**kwargs)
@@ -92,13 +85,13 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
             for i in range(n_layers):
                 self.wavenet_layers.append(wavenet_Unit(out_channels = out_channels, kernel_size = kernel_size, dilation_rate = dialtion_base**i, causal = causal))
             self.bottom = keras.Sequential([
-                keras.layers.Activation(middle_layers_activation),
-                keras.layers.BatchNormalization(),
-                keras.layers.Dense(out_channels//2, activation= middle_layers_activation),
-                keras.layers.Dense(out_channels//4, activation= middle_layers_activation),
-                keras.layers.BatchNormalization(),
-                keras.layers.Dense(1, activation=base_activation, bias_initializer=bias_initializer)
-                ])
+            keras.layers.Activation(middle_layers_activation),
+            keras.layers.BatchNormalization(),
+            keras.layers.Dense(out_channels//2, activation= middle_layers_activation),
+            keras.layers.Dense(out_channels//4, activation= middle_layers_activation),
+            keras.layers.BatchNormalization(),
+            keras.layers.Dense(1, activation=base_activation, bias_initializer=bias_initializer)
+            ])
 
         def call(self, inps):
             skip_value = 0
@@ -177,9 +170,7 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
                 })
         return main_model
 
-
     def load_model_for_appliance(depth, n_layers, kernel_size, dilation_size, middle_layers_activation, power_on_z_score):
-
         y = df_aged['0'].values
         x = np.array([df_aggregate['phase_1'].values+y,
                     df_aggregate['phase_2'].values+y,
@@ -187,8 +178,6 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
 
         x = np.expand_dims(x,0)
         y = np.expand_dims(np.expand_dims(y,0),-1)
-
-
 
         ratio = 0.75
 
@@ -215,10 +204,8 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
         x_train = (x_train-x_train.mean())/x_train.std()
 
         appliance_model = make_main_model(x_train, y_train, depth = depth, n_layers = n_layers, kernel_size = kernel_size, dilation_size = dilation_size, middle_layers_activation = middle_layers_activation)
-
-        print(f'x_shape:{x.shape}, y_shape:{y.shape}, x_val_sahpe:{x_val.shape}, y_val_shape:{y_val.shape}')
-
         return (x_val, y_val, appliance_model, target_std, target_mean, y_train_std)
+
 
     x_val, y_val, appliance_model, target_std, target_mean, y_train_std = load_model_for_appliance(
         depth = 16,
@@ -264,11 +251,64 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
     aging_model = tf.keras.Model(inputs=inputs_1,outputs=outputs, name='aging_model')
     aging_model.compile(optimizer= tf.keras.optimizers.Nadam(initial_lr, beta_1=0.9, beta_2=0.98, epsilon=1e-9), loss='mse', metrics=['mae'])
 
+    if device_age == 7:
+        # <keras.src.engine.input_layer.InputLayer at 0x7ddad0803ca0>,
+        aging_model.layers[0].trainable = False
+        # <keras.src.engine.functional.Functional at 0x7ddab730ab60>,
+        aging_model.layers[1].trainable = False
+        # <keras.src.layers.merging.concatenate.Concatenate at 0x7ddab713c9d0>,
+        aging_model.layers[2].trainable = False
+
+
+        # <keras.src.layers.rnn.lstm.LSTM at 0x7ddab71cb220>,
+        aging_model.layers[3].trainable = False
+        # <keras.src.layers.core.dense.Dense at 0x7ddab7163af0>,
+        aging_model.layers[4].trainable = False
+        # <keras.src.layers.core.dense.Dense at 0x7ddad9fa7b20>,
+        aging_model.layers[5].trainable = True
+        # <keras.src.layers.core.dense.Dense at 0x7ddad08008b0>,
+        aging_model.layers[6].trainable = True
+        # <keras.src.layers.core.dense.Dense at 0x7ddace552b90>,
+        aging_model.layers[7].trainable = True
+
+        # <__main__.wavenet at 0x7ddace5502b0>]
+        aging_model.layers[8].trainable = True
+    
+    else:
+        # <keras.src.engine.input_layer.InputLayer at 0x7ddad0803ca0>,
+        aging_model.layers[0].trainable = False
+        # <keras.src.engine.functional.Functional at 0x7ddab730ab60>,
+        aging_model.layers[1].trainable = False
+        # <keras.src.layers.merging.concatenate.Concatenate at 0x7ddab713c9d0>,
+        aging_model.layers[2].trainable = False
+
+
+        # <keras.src.layers.rnn.lstm.LSTM at 0x7ddab71cb220>,
+        aging_model.layers[3].trainable = False
+        # <keras.src.layers.core.dense.Dense at 0x7ddab7163af0>,
+        aging_model.layers[4].trainable = False
+        # <keras.src.layers.core.dense.Dense at 0x7ddad9fa7b20>,
+        aging_model.layers[5].trainable = False
+        # <keras.src.layers.core.dense.Dense at 0x7ddad08008b0>,
+        aging_model.layers[6].trainable = True
+        # <keras.src.layers.core.dense.Dense at 0x7ddace552b90>,
+        aging_model.layers[7].trainable = True
+
+        # <__main__.wavenet at 0x7ddace5502b0>]
+        aging_model.layers[8].trainable = False
+
     aging_model.summary()
 
     if device_age == 0 or device_age == 1 or device_age == 2 or device_age == 3:
         weight_path = os.path.join(current_directory, "weights", "3_phase_fridge_1_year_3", "0_1_2_3_working_base_model_0_1_2_weight.h5")
         aging_model.load_weights(weight_path)
+    else:
+        print("im in")
+        weight_path = os.path.join(current_directory, "weights", "3_phase_fridge_1_rest", f"weight_{device_age}.h5")
+        print("\nloaded weight:",weight_path)  
+        aging_model.load_weights(weight_path)  
+        print("im out")
+
 
 
     def data_pipeline(year):
@@ -408,13 +448,17 @@ def get_predictions_0123(device_name, device_age, start_point, end_point):
             print(f"Prediction(year {year})",pred[0,:,0]*target_std)
 
             if year == device_age:
-                return {
+                output = {
                 'aggregated_power_phase_1': list((x_val[0, n1:n2, 0]*agg_std)+agg_mean),
                 'aggregated_power_phase_2': list((x_val[0, n1:n2, 1]*agg_std)+agg_mean),
                 'aggregated_power_phase_3': list((x_val[0, n1:n2, 2]*agg_std)+agg_mean),
                 'disaggregated_power_target':list(y_val[0,n1:n2,0]*target_std),
                 'disaggregated_power_prediction': list(pred[0,:,0]*target_std)
                 }
+
+
+
+        return output
 
     output = aged_predictions(window =[start_point, end_point])
     print(output)
