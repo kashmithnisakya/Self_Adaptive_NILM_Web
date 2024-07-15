@@ -1,0 +1,185 @@
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0px;
+}
+
+.hero-section {
+  height: 100vh; /* Set height to 100% of viewport height  62vh */
+  background-image: url(../img/chart6.gif);
+  background-size: 102%;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff; /* Text color */
+  /* background-color: rgba(0, 0, 0, 0.1); */
+}
+
+.arrow-container {
+  position: absolute;
+  top: 55vh; /* Adjust the distance from the bottom as needed 40vh*/
+  animation: arrowAnimation 1s infinite alternate; /* Arrow animation */
+}
+
+.arrow {
+  width: 20px; /* Arrow width */
+  height: 20px; /* Arrow height */
+  border-left: 3px solid #ffffff; /* Arrow left border */
+  border-bottom: 3px solid #ffffff; /* Arrow bottom border */
+  transform: rotate(-45deg); /* Rotate arrow to point downward */
+  border-radius: 2px;
+}
+
+@keyframes arrowAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+.page-title {
+  font-size: 50px;
+  margin-bottom: 0px;
+  margin-top: -50px;
+}
+
+.options-section {
+  display: inline-flex;
+  margin-left: 230px;
+  margin-top: 30px;
+  margin-bottom: 15vh;
+}
+
+.section-card {
+  /* outline: 2px solid rgb(255, 255, 255); */
+  width: 300px;
+  height: 460px;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+  margin: 10px 20px;
+  position: relative;
+  background-color: white;
+}
+
+.section-card:hover {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+}
+
+.section-cardImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(238, 238, 238);
+  border-radius: 12px;
+  margin: 0px;
+  transition: background-color 0.3s ease;
+}
+
+.section-cardImageElement {
+  max-width: 60%;
+  padding: 20px 20px;
+}
+
+.section-description {
+  padding: 5px;
+  margin-top: -10px;
+  margin-left: 5px;
+}
+
+.section-descriptionParagraph {
+  text-align: left;
+  padding-right: 15px;
+  font-size: 14px;
+  color: rgb(86, 86, 86);
+  position: absolute;
+  top: 60%;
+}
+
+.section-descriptionTitle {
+  font-size: 18px;
+}
+
+.section-button {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 86%;
+  width: 100%;
+  margin-left: -15px;
+}
+
+.section-buttonElement {
+  cursor: pointer;
+  width: 70%;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid rgb(14, 91, 174);
+  background-color: white;
+  color: rgb(14, 91, 174);
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color, color 0.3s ease;
+}
+
+.section-buttonElement:hover {
+  background-color: rgb(14, 91, 174);
+  color: white;
+}
+
+.author-details {
+  background-color: rgb(16, 16, 80);
+}
+
+footer {
+  background-color: #141a2e;
+  color: #fff;
+  padding: 40px 20px 10px 40px;
+}
+footer .container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 300px;
+  margin-bottom: 30px;
+}
+footer .group-members {
+  text-align: left; /* Align group members to the left */
+}
+
+/* footer .about-section p{
+  font-weight: bold;
+} */
+
+footer .about-content {
+  width: 400px;
+  text-align: justify;
+}
+/* footer .names-of-members{
+  margin-left: 30px;
+} */
+
+.horizontal-line{
+  border-color:  #101525;
+}
+
+footer .university-info {
+  display: flex;
+  text-align: left; /* Align university info to the right */
+  justify-content: center;
+  color: #c6c6c6;
+  /* margin-top: 40px; */
+}
+footer p {
+  margin: 5px 0;
+}

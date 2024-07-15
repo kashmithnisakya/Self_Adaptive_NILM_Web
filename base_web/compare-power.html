@@ -1,0 +1,66 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare Energy Consumptions</title>
+
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script type="text/javascript"></script>
+
+    <link rel="stylesheet" href="./styles/self-adaptive.css" />
+    <link rel="stylesheet" href="./styles/pie-chart.css" />
+  </head>
+  <body>
+    <div class="page-topic">
+      <div class="back-button">
+        <a href="./index.html"><img src="./img/home.png" alt="" /></a>
+      </div>
+
+      <div class="page-title">
+        <h3>Compare Energy Consumptions of Appliances</h3>
+      </div>
+    </div>
+
+    <div class="page-header">
+      <form>
+        <div class="device-time-selection">
+          <div class="form-input">
+            <label>Year :</label>
+            <input id="year" type="number" min="0" step="1" />
+          </div>
+
+          <div class="form-input">
+            <label>From :</label>
+            <input id="from" type="number" min="0" step="1" />
+          </div>
+
+          <div class="form-input">
+            <label>To :</label>
+            <input id="to" type="number" min="0" step="1" />
+          </div>
+
+          <div class="submit-button">
+            <button type="button" onclick="submitForm()">View Data</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="submited-data-container"></div>
+
+    <!-- <div class="graph" id="aggregate-chart">Please submit above info</div>
+    <div class="graph" id="device-chart"></div> -->
+
+
+
+    <div class="pie-chart-container">
+      <!-- <div class="graph-titlee" id="graph-title">Consumption Comparison</div> -->
+      <div class="graph" id="piechart" style="width: 900px; height: 500px"><img src="./img/information.png"><div>Please submit above info</div></div>
+    </div>
+
+    <script src="./scripts/compare-power.js"></script>
+  </body>
+</html>

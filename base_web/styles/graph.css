@@ -1,0 +1,86 @@
+.graph {
+  display: flex;
+  /* border: 2px solid rgb(174, 174, 174); */
+  /* padding: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+  color: rgb(104, 104, 104); */
+  justify-content: center;
+  align-items: center;
+}
+
+/* .no-data-image{
+  width: 40px;
+} */
+
+.info-img{
+  width: 25px;
+  margin-right: 10px;
+}
+
+
+
+.graph-container {
+  border: 1px solid rgb(188, 188, 188);
+  padding: 30px 15px 30px 20px;
+  /* padding-right: 40px; */
+  margin-bottom: 20px;
+  margin-left: 15px;
+  border-radius: 8px;
+  /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); */
+
+  transition: box-shadow 0.3s ease;
+  width: 94vw;
+}
+
+.graph-container:hover {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
+}
+
+.graph-summery {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-title {
+  margin-bottom: 20px;
+  padding-left: 30px;
+}
+
+.energy-usage-container {
+  display: flex;
+}
+
+.energy-usage {
+  color: rgb(73, 73, 73);
+  font-size: 14px;
+  margin: 0px 0px 15px 34px;
+  border: 1px solid rgb(212, 212, 212);
+  padding: 4px 8px 4px 8px;
+  border-radius: 8px;
+  width: fit-content;
+  transition: background-color, color 0.3s ease;
+}
+
+.energy-usage:hover {
+  background-color: rgb(248, 248, 248);
+  color: black;
+}
+
+.energy-usage-value {
+  color: rgb(27, 195, 27);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+.submited-data{
+  outline: 1px solid rgb(213, 213, 213);
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 20px 40px 20px 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(242, 242, 242);
+  
+}

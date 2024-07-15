@@ -28,6 +28,7 @@ function App() {
 
   return (
     <div className="App">
+    
       <h1>Device Prediction Form</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

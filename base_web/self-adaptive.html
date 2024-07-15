@@ -1,0 +1,80 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Self-Adaptive NILM Model</title>
+
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+
+    <link rel="stylesheet" href="./styles/self-adaptive.css" />
+    <link rel="stylesheet" href="./styles/graph.css" />
+  </head>
+  <body>
+    <div class="page-topic">
+      <div class="back-button">
+        <a href="./index.html"><img src="./img/home.png" alt="" /></a>
+      </div>
+
+      <div class="page-title"><h3>Self-Adaptive NILM Model</h3></div>
+    </div>
+
+    <div class="page-header">
+      <form>
+        <div class="device-time-selection">
+          <div class="form-input">
+            <label class>Device :</label>
+            <select id="device" class="applience-dropdwon">
+              <option disabled selected value="">Select a device</option>
+              <option value="fridge">Fridge</option>
+              <option value="washing-machine">Washing Machine</option>
+              <option value="dish-washer">Dish Washer</option>
+            </select>
+          </div>
+
+          <div class="form-input">
+            <label>Year :</label>
+            <input id="year" type="number" min="0" step="1" />
+          </div>
+
+          <div class="form-input">
+            <label>From :</label>
+            <input id="from" type="number" min="0" step="1" />
+          </div>
+
+          <div class="form-input">
+            <label>To :</label>
+            <input id="to" type="number" min="0" step="1" />
+          </div>
+
+          <div class="submit-button">
+            <button type="button" onclick="submitForm('selfAdaptive')">View Data</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- <div class="graph" id="aggregate-chart">Please submit above info</div>
+    <div class="graph" id="device-chart"></div> -->
+    <div id="submited-data-container"></div>
+
+    <div class="graph-container">
+      <div class="graph-summery" id="aggregate-chart-summery"></div>
+      <div class="graph" id="aggregate-chart"><img class="info-img" src="./img/information.png"><div>Please submit above info</div></div>
+    </div>
+
+    <div class="graph-container">
+      <div class="graph-summery" id="device-chart-summery"></div>
+      <div class="graph" id="device-chart">
+        <img src="./img/corrupted-file.png" alt="" class="no-data-image" />
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./scripts/self-adaptive.js"></script>
+    <script src="./scripts/plot-device-charts.js"></script>
+    <script src="./scripts/plot-aggregate.js"></script>
+  </body>
+</html>
